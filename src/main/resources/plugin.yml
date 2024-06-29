@@ -1,0 +1,4 @@
+name: cozeBot
+version: '${version}'
+main: work.alsace.bot.CozeBot
+api-version: '1.20'
