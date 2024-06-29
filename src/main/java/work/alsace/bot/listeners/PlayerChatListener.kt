@@ -1,6 +1,5 @@
 package work.alsace.bot.listeners
 
-import net.kyori.adventure.text.TextComponent
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
@@ -19,8 +18,9 @@ class PlayerChatListener(plugin: CozeBot) : Listener {
         if (prefix.isNullOrEmpty()) {
             prefix = "?"
         }
-        if (e.message.startsWith(prefix)) {
-            val question = e.message.substringAfter(prefix).trim()
+        val msg = e.message.replace("？", "?")
+        if (msg.startsWith(prefix)) {
+            val question = msg.substringAfter(prefix).trim()
             if (question != "") {
                 e.isCancelled = true
                 e.player.sendMessage(pluginPrefix + translateHexColorCodes("#FFFFFF正在思考..."))

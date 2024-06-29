@@ -1,5 +1,5 @@
 coze:
   token: 'YOUR_TOKEN'
-  prefix: '!'
+  prefix: '？'
   botid: 'YOUR_BOT_ID'
   pluginPrefix: "#FFFFFF[#95E1D3工#FF47C9业#F38181园#EEC241助#9AE7A1手#FFFFFF]"
