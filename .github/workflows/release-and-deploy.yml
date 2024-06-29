@@ -1,0 +1,38 @@
+name: release-and-deploy
+
+on:
+  release:
+    types: [ created ]
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v3
+
+      - name: 设置 JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: 为 Gradlew 赋予执行权限
+        run: chmod +x ./gradlew
+
+      - name: 使用 Gradle 构建
+        run: ./gradlew build
+
+      - name: 列出构建产物
+        run: ls -lah ./cozeBot/build/libs/
+
+      - name: 上传 Core 构件至 GitHub Release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./cozeBot/build/libs/cozeBot-${{ github.event.release.tag_name }}.jar
+          asset_name: cozeBot-${{ github.event.release.tag_name }}.jar
+          asset_content_type: application/java-archive
