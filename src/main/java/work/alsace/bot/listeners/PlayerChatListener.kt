@@ -18,16 +18,21 @@ class PlayerChatListener(plugin: CozeBot) : Listener {
         if (prefix.isNullOrEmpty()) {
             prefix = "?"
         }
+        val player = e.player
+        val world = player.world
+        val server = player.server.name
         val msg = e.message.replace("？", "?")
         if (msg.startsWith(prefix)) {
-            val question = msg.substringAfter(prefix).trim()
+            var question = msg.substringAfter(prefix).trim()
             if (question != "") {
                 e.isCancelled = true
+                question = "以下是玩家 $player 的信息：所在服务器 $server，所在世界 $world。" +
+                        "请根据以上信息（如果需要的话）回答该玩家提出的问题：$question"
                 e.player.sendMessage(pluginPrefix + translateHexColorCodes("#FFFFFF正在思考..."))
                 val result = coze(e, question)
                 e.player.sendMessage(translateHexColorCodes("#9AE7A1$result"))
             } else {
-                e.player.sendMessage("$pluginPrefix 用法：`? [问题]` - 提问, 如`? 如何打开夜视模式`")
+                e.player.sendMessage("$pluginPrefix 用法：`$prefix [问题]` - 提问, 如`$prefix 如何打开夜视模式`")
             }
         }
     }
